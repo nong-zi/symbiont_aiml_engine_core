@@ -1,0 +1,70 @@
+[2024-01-18, 02:17:07 UTC] {taskinstance.py:1937} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/user/airflow/dags/prediction2.py", line 118, in start_prediction
+    logger = setGlobal(forecast_duration, parameters, selected_inputs, predicting_file_path, model_id, user_id, project_id)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: setGlobal() missing 2 required positional arguments: 'project_id' and 'user_id'
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+  File "/home/user/.local/lib/python3.11/site-packages/airflow/operators/python.py", line 192, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/.local/lib/python3.11/site-packages/airflow/operators/python.py", line 209, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/airflow/dags/predicting_dag.py", line 57, in meet
+    result = run_script(forecast_duration, selected_inputs, parameters, result_directory, prediction_file_path, model_id, prediction_id, project_id, user_id)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/airflow/dags/predicting_dag.py", line 28, in run_script
+    result = start_prediction(forecast_duration, selected_inputs, parameters, result_directory, prediction_file_path, model_id, prediction_id, project_id, user_id)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/airflow/dags/prediction2.py", line 170, in start_prediction
+    logger.error(f"Error in prediciton process: {str(e)}")
+    ^^^^^^
+UnboundLocalError: cannot access local variable 'logger' where it is not associated with a value
+[2024-01-18, 02:17:07 UTC] {taskinstance.py:1400} INFO - Marking task as FAILED. dag_id=predicting_dag_v01, task_id=meet, execution_date=20240118T021703, start_date=20240118T021707, end_date=20240118T021707
+[2024-01-18, 02:17:07 UTC] {taskinstance.py:1705} ERROR - Error when executing failure_meet callback
+Traceback (most recent call last):
+  File "/home/user/airflow/dags/prediction2.py", line 118, in start_prediction
+    logger = setGlobal(forecast_duration, parameters, selected_inputs, predicting_file_path, model_id, user_id, project_id)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: setGlobal() missing 2 required positional arguments: 'project_id' and 'user_id'
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+  File "/home/user/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 1518, in _run_raw_task
+    self._execute_task_with_callbacks(context, test_mode, session=session)
+  File "/home/user/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 1681, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 1744, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/.local/lib/python3.11/site-packages/airflow/operators/python.py", line 192, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/.local/lib/python3.11/site-packages/airflow/operators/python.py", line 209, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/airflow/dags/predicting_dag.py", line 57, in meet
+    result = run_script(forecast_duration, selected_inputs, parameters, result_directory, prediction_file_path, model_id, prediction_id, project_id, user_id)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/airflow/dags/predicting_dag.py", line 28, in run_script
+    result = start_prediction(forecast_duration, selected_inputs, parameters, result_directory, prediction_file_path, model_id, prediction_id, project_id, user_id)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/airflow/dags/prediction2.py", line 170, in start_prediction
+    logger.error(f"Error in prediciton process: {str(e)}")
+    ^^^^^^
+UnboundLocalError: cannot access local variable 'logger' where it is not associated with a value
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+  File "/home/user/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 1702, in _run_finished_callback
+    callback(context)
+  File "/home/user/airflow/dags/predicting_dag.py", line 67, in failure_meet
+    model_id = context['it'].xcom_pull(task_ids='meet', key='model_id', include_prior_dates=True)
+               ~~~~~~~^^^^^^
+  File "/home/user/.local/lib/python3.11/site-packages/airflow/utils/context.py", line 209, in __getitem__
+    raise KeyError(key)
+KeyError: 'it'
+[2024-01-18, 02:17:07 UTC] {standard_task_runner.py:104} ERROR - Failed to execute job 129 for task meet (cannot access local variable 'logger' where it is not associated with a value; 610912)
+[2024-01-18, 02:17:07 UTC] {local_task_job_runner.py:228} INFO - Task exited with return code 1
+[2024-01-18, 02:17:07 UTC] {taskinstance.py:2778} INFO - 0 downstream tasks scheduled from follow-on schedule check
